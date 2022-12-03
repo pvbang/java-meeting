@@ -14,6 +14,8 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -24,7 +26,9 @@ public class MainScreen extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	public static int chattingRoom = -1;
-
+	public boolean shareScreen = true;
+	public int isShareScreen = 0;
+	
 	JList<String> connectedServerInfoJList;
 
 	JList<String> onlineUserJList;
@@ -43,6 +47,9 @@ public class MainScreen extends JFrame implements ActionListener {
 		GBCBuilder gbc = new GBCBuilder(1, 1);
 		JPanel mainContent = new JPanel(new GridBagLayout());
 
+		Path currentRelativePath = Paths.get("");
+		String s = currentRelativePath.toAbsolutePath().toString();
+		
 		connectedServerInfoJList = new JList<String>(
 				new String[] { "Số thành viên: " + Main.socketController.connectedServer.connectAccountCount });
 
@@ -70,7 +77,7 @@ public class MainScreen extends JFrame implements ActionListener {
 							}
 						}
 
-						if (roomTabIndex == -1) { // room tồn tại nhưng tab bị chéo trước đó
+						if (roomTabIndex == -1) { 	// room tồn tại nhưng tab bị chéo trước đó
 							newRoomTab(foundRoom);
 							roomTabbedPane.setSelectedIndex(roomTabbedPane.getTabCount() - 1);
 						} else {
@@ -116,7 +123,7 @@ public class MainScreen extends JFrame implements ActionListener {
 		JScrollPane groupListScrollPane = new JScrollPane(groupJList);
 		groupListScrollPane.setBorder(BorderFactory.createTitledBorder("Danh sách nhóm"));
 
-		JButton createGroupButton = new JButton("Tạo nhóm");
+		JButton createGroupButton = new JButton("Tạo nhóm", new ImageIcon(s+"\\resources\\group.png"));
 		createGroupButton.setActionCommand("group");
 		createGroupButton.addActionListener(this);
 
@@ -137,8 +144,6 @@ public class MainScreen extends JFrame implements ActionListener {
 
 		JButton sendButton, fileButton, emojiButton, audioButton, shareScreenButton;
 		
-		Path currentRelativePath = Paths.get("");
-		String s = currentRelativePath.toAbsolutePath().toString();
 		
 		sendButton = new JButton(new ImageIcon(s+"\\resources\\send.png", "send"));
 		sendButton.setActionCommand("send");
@@ -199,7 +204,7 @@ public class MainScreen extends JFrame implements ActionListener {
 		roomUsersJList = new JList<String>();
 		roomUsersJList.setBorder(BorderFactory.createTitledBorder("Thành viên"));
 
-		chatPanel.setBackground(Color.white);
+//		chatPanel.setBackground(Color.white);
 		chatPanel.add(roomTabbedPane, gbc.setGrid(1, 1).setFill(GridBagConstraints.BOTH).setWeight(1, 1));
 		chatPanel.add(enterMessagePanel, gbc.setGrid(1, 2).setWeight(1, 0));
 
@@ -207,7 +212,7 @@ public class MainScreen extends JFrame implements ActionListener {
 		mainContent.add(shareScreenSplitPane, gbc.setGrid(1, 2).setWeight(1, 1));    
         
 		showScreenPanel = new JPanel();
-		showScreenPanel.setBackground(Color.white);
+//		showScreenPanel.setBackground(Color.white);
 		showScreenPanel.setForeground(Color.RED);
 		showScreenPanel.setLayout(null);
 		
@@ -232,10 +237,10 @@ public class MainScreen extends JFrame implements ActionListener {
 			}
 		});
 		
-
 		this.setTitle("UB Meeting - " + Main.socketController.userName);
 		this.setContentPane(mainContent);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setIconImage(new ImageIcon(s+"\\resources\\meeting.png").getImage());
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -318,53 +323,61 @@ public class MainScreen extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 		case "group": {
-			JDialog chooseUserDialog = new JDialog();
-			JPanel chooseUserContent = new JPanel(new GridBagLayout());
-			GBCBuilder gbc = new GBCBuilder(1, 1);
-
+			JFrame frame = new JFrame();
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			frame.setBounds(100, 100, 450, 300);
+			frame.setTitle("Tạo nhóm mới");
+			JPanel contentPane = new JPanel();
+			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+			frame.setLocationRelativeTo(null);
+			frame.setVisible(true);
+			
+			JPanel chooseUserContent = new JPanel();
+			
 			JList<String> onlineUserJList = new JList<String>(Main.socketController.onlineUsers.toArray(new String[0]));
 			JScrollPane onlineUserScrollPanel = new JScrollPane(onlineUserJList);
+			onlineUserScrollPanel.setBounds(10, 11, 414, 171);
 			onlineUserScrollPanel.setBorder(BorderFactory.createTitledBorder("Chọn thành viên để thêm vào nhóm"));
+			onlineUserScrollPanel.setBackground(Color.white);
 
-			JLabel groupNameLabel = new JLabel("Tên nhóm: ");
+			JLabel groupNameLabel = new JLabel(" Tên nhóm: ");
+			groupNameLabel.setBounds(10, 193, 67, 14);
 			JTextField groupNameField = new JTextField();
-			JButton createButton = new JButton("Tạo nhóm");
+			groupNameField.setBounds(77, 189, 345, 26);
+			groupNameField.setBorder(new LineBorder(new Color(215, 215, 215)));
+			JButton createButton = new JButton("Tạo nhóm", new ImageIcon(Paths.get("").toAbsolutePath().toString()+"\\resources\\group.png"));
+			createButton.setBounds(10, 222, 414, 31);
+
 			createButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					String groupName = groupNameField.getText();
 					if (groupName.isEmpty()) {
-						JOptionPane.showMessageDialog(chooseUserDialog, "Tên nhóm không được trống", "Lỗi tạo nhóm",
+						JOptionPane.showMessageDialog(null, "Tên nhóm không được trống", "Lỗi tạo nhóm",
 								JOptionPane.WARNING_MESSAGE);
 						return;
 					}
 					List<String> chosenUsers = onlineUserJList.getSelectedValuesList();
 					if (chosenUsers.size() < 2) {
-						JOptionPane.showMessageDialog(chooseUserDialog, "Nhóm phải có từ 3 người trở lên",
+						JOptionPane.showMessageDialog(null, "Nhóm phải có từ 3 người trở lên",
 								"Lỗi tạo group", JOptionPane.WARNING_MESSAGE);
 						return;
 					}
 					Main.socketController.createGroup(groupName, chosenUsers);
-					chooseUserDialog.setVisible(false);
-					chooseUserDialog.dispose();
+					setVisible(false);
+					dispose();
 				}
 			});
+			chooseUserContent.setLayout(null);
 
-			chooseUserContent.add(onlineUserScrollPanel,
-					gbc.setSpan(2, 1).setFill(GridBagConstraints.BOTH).setWeight(1, 0));
-			chooseUserContent.add(groupNameLabel, gbc.setGrid(1, 2).setSpan(1, 1).setWeight(0, 0));
-			chooseUserContent.add(groupNameField, gbc.setGrid(2, 2).setWeight(1, 0));
-			chooseUserContent.add(createButton,
-					gbc.setGrid(1, 3).setSpan(2, 1).setWeight(0, 0).setFill(GridBagConstraints.NONE));
+			chooseUserContent.add(onlineUserScrollPanel);
+			chooseUserContent.add(groupNameLabel);
+			chooseUserContent.add(groupNameField);
+			chooseUserContent.add(createButton);
+			chooseUserContent.setBackground(Color.white);
 
-			chooseUserDialog.setMinimumSize(new Dimension(300, 150));
-			chooseUserDialog.setContentPane(chooseUserContent);
-			chooseUserDialog.setTitle("Tạo nhóm mới");
-			chooseUserDialog.setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
-			chooseUserDialog.pack();
-			chooseUserDialog.getRootPane().setDefaultButton(createButton);
-			chooseUserDialog.setLocationRelativeTo(null);
-			chooseUserDialog.setVisible(true);
+			frame.setContentPane(chooseUserContent);
+			frame.setIconImage(new ImageIcon(Paths.get("").toAbsolutePath().toString()+"\\resources\\meeting.png").getImage());
 			break;
 		}
 
@@ -444,7 +457,17 @@ public class MainScreen extends JFrame implements ActionListener {
 		}
 
 		case "shareScreen": {
-			shareScreen();
+			if (isShareScreen == 0) {
+				shareScreen = true;
+				shareScreen();
+				isShareScreen = 1;
+			} else {
+				shareScreen = false;
+				isShareScreen = 0;
+				showScreenPanel.revalidate();
+				showScreenPanel.repaint();
+			}
+			
 		}
 
 		}
@@ -460,7 +483,7 @@ public class MainScreen extends JFrame implements ActionListener {
 						Robot rob = new Robot();
 						Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
-						while (true) {
+						while (shareScreen) {
 							try {
 
 								ServerSocket soc = new ServerSocket(888);
@@ -476,7 +499,7 @@ public class MainScreen extends JFrame implements ActionListener {
 
 							}
 							try {
-								Thread.sleep(5);
+								Thread.sleep(1);
 							} catch (Exception e) {
 							}
 						}
@@ -497,24 +520,18 @@ public class MainScreen extends JFrame implements ActionListener {
 			}
 
 		});
-//		dispose();
-
 		EventQueue.invokeLater(() -> {
 			showScreen();
-//			new Clients().setVisible(true);
 		});
-//		dispose();
 
 	}
 
 	public void showScreen() {
-		
-
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					while (true) {
+					while (shareScreen) {
 						try {
 							InetAddress inetAddress = InetAddress.getLocalHost();
 							String ipAddress = inetAddress.getHostAddress();
@@ -524,13 +541,13 @@ public class MainScreen extends JFrame implements ActionListener {
 
 							soc.close();
 						} catch (Exception e) {
-							System.out.println(e.getMessage());
+//							System.out.println(e.getMessage());
 						}
 
 						try {
-							Thread.sleep(5);
+							Thread.sleep(1);
 						} catch (Exception e) {
-							System.out.println(e.getMessage());
+//							System.out.println(e.getMessage());
 						}
 					}
 				} catch (Exception e) {
@@ -606,13 +623,17 @@ public class MainScreen extends JFrame implements ActionListener {
 	public static class TabComponent extends JPanel {
 
 		private static final long serialVersionUID = 1L;
-
+	
 		public TabComponent(String tabTitle, ActionListener closeButtonListener) {
 			JLabel titleLabel = new JLabel(tabTitle);
-			JButton closeButton = new JButton(UIManager.getIcon("InternalFrame.closeIcon"));
+			JButton closeButton = new JButton(new ImageIcon(Paths.get("").toAbsolutePath().toString()+"\\resources\\cancel.png"));
 			closeButton.addActionListener(closeButtonListener);
 			closeButton.setPreferredSize(new Dimension(16, 16));
-
+			closeButton.setBorderPainted(false);
+			closeButton.setBorder(null);
+			closeButton.setMargin(new Insets(0, 0, 0, 0));
+			closeButton.setContentAreaFilled(false);
+			
 			this.setLayout(new FlowLayout());
 			this.add(titleLabel);
 			this.add(closeButton);

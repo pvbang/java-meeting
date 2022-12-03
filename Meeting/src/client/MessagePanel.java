@@ -25,7 +25,8 @@ public class MessagePanel extends JPanel {
 		JLabel whoSendLabel = new JLabel(
 				(data.whoSend.equals(Main.socketController.userName) ? "Bạn" : data.whoSend) + ": ");
 		whoSendLabel.setFont(new Font("Dialog", Font.BOLD, 13));
-
+		whoSendLabel.setBorder(BorderFactory.createEmptyBorder(2, 3, 0, 0));
+		
 		JPanel contentPanel = new JPanel();
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
 		contentPanel.setBackground(Color.white);
@@ -34,7 +35,7 @@ public class MessagePanel extends JPanel {
 
 			JTextArea textContent = new JTextArea(data.content);
 			textContent.setFont(new Font("Dialog", Font.ITALIC, 13));
-			textContent.setForeground(Color.red);
+			textContent.setForeground(Color.blue);
 			textContent.setEditable(false);
 
 			contentPanel.add(textContent);

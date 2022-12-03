@@ -1,6 +1,12 @@
 ## Meeting Application - Java (Client - Server)
 
-### Create Database:
+### Run:
+```bash
+# run Java Application:
+Meeting
+```
+
+### Database:
 ```bash
 # Free SQL Database: https://www.freesqldatabase.com
 # Database: https://www.phpmyadmin.co
@@ -40,13 +46,6 @@ ALTER DATABASE sql6581708 CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE sql6581708.users CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE sql6581708.rooms CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE sql6581708.user_room CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-```
-
-### Run:
-```bash
-# right-click Meeting -> properties -> Java Build Path -> Projects -> Classpath -> Add -> check MeetingServer -> OK -> Apply and Close
-# run Java Application:
-Meeting
 ```
 
 ## Dev: Phan Văn Bằng

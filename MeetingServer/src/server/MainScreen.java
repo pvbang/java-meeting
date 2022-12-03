@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
@@ -40,6 +41,8 @@ public class MainScreen extends JFrame implements ActionListener {
 	private ServerDAO serverDAO;
 	private UserRoomDAO userRoomDAO;
 	User user;
+
+	ImageIcon icon = new ImageIcon(Paths.get("").toAbsolutePath().toString()+"\\resources\\open.png");
 	
 	String rand = getRandomString(3)+ "-" +getRandomString(3)+ "-" +getRandomString(3);
 	int randomPort = getRandomNum();
@@ -51,6 +54,7 @@ public class MainScreen extends JFrame implements ActionListener {
 		mainContent.setBackground(new Color(255, 255, 255));
 		GBCBuilder gbc = new GBCBuilder(1, 1).setInsets(5);
 
+		
 		JLabel ipLabel = new JLabel("IP: " + SocketController.getThisIP());
 		Border border1 = ipLabel.getBorder();
 		Border margin1 = new EmptyBorder(1,9,1,1);
@@ -85,16 +89,16 @@ public class MainScreen extends JFrame implements ActionListener {
 			portText.setText(portRoom);
 		}
 		
-		openCloseButton = new JButton("Mở Server");
+		openCloseButton = new JButton(" Mở phòng họp", icon);
 		openCloseButton.setBackground(UIManager.getColor("Button.background"));
 		openCloseButton.addActionListener(this);
 
-		showClientTable = new JTable(new Object[][] {}, new String[] { "Tên người dùng", "Port" });
+		showClientTable = new JTable(new Object[][] {}, new String[] { "Tên thành viên", "Port" });
 		showClientTable.setRowHeight(25);
 		showClientTable.setBackground(Color.white);
 		
 		JScrollPane showClientScrollPane = new JScrollPane(showClientTable);
-		showClientScrollPane.setBorder(BorderFactory.createTitledBorder("Danh sách các người dùng đang kết nối đến server"));
+		showClientScrollPane.setBorder(BorderFactory.createTitledBorder("Danh sách các thành viên trong phòng"));
 		showClientScrollPane.setBackground(Color.white);
 		
 		mainContent.add(ipLabel, gbc.setFill(GridBagConstraints.BOTH).setWeight(0.1, 0).setSpan(1, 1));
@@ -111,10 +115,11 @@ public class MainScreen extends JFrame implements ActionListener {
 		mainContent.add(openCloseButton, gbc.setGrid(1, 4).setWeight(1, 0.03).setSpan(6, 1));
 		mainContent.setPreferredSize(new Dimension(1000, 500));
 
-		this.setTitle("Tạo phòng họp mới - UB Meeting");
+		this.setTitle("Quản lý phòng họp - UB Meeting");
 		this.setContentPane(mainContent);
 		this.getRootPane().setDefaultButton(openCloseButton);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setIconImage(new ImageIcon(Paths.get("").toAbsolutePath().toString()+"\\resources\\meeting.png").getImage());
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
@@ -138,7 +143,9 @@ public class MainScreen extends JFrame implements ActionListener {
 
 					Main.socketController.OpenSocket(Main.socketController.serverPort);
 					isSocketOpened = true;
-					openCloseButton.setText("Đóng");
+					icon = new ImageIcon(Paths.get("").toAbsolutePath().toString()+"\\resources\\close.png");
+					openCloseButton.setText(" Đang mở phòng họp (Nhấn để đóng)");
+					openCloseButton.setIcon(icon);
 					
 					Server insertServer = new Server();
 					insertServer.setName(serverNameText.getText());
@@ -194,7 +201,9 @@ public class MainScreen extends JFrame implements ActionListener {
 		} else {
 			Main.socketController.CloseSocket();
 			isSocketOpened = false;
-			openCloseButton.setText("Mở");
+			icon = new ImageIcon(Paths.get("").toAbsolutePath().toString()+"\\resources\\open.png");
+			openCloseButton.setText(" Mở phòng họp");
+			openCloseButton.setIcon(icon);
 			
 			idLabel.setText("Mã Phòng");
 			idLabel.setForeground(Color.black);

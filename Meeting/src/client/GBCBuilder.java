@@ -3,7 +3,6 @@ package client;
 import java.awt.*;
 
 public class GBCBuilder extends GridBagConstraints {
-	// Tham khảo https://horstmann.com/articles/Taming_the_GridBagLayout.html
 	private static final long serialVersionUID = 1L;
 
 	public GBCBuilder(int gridx, int gridy) {

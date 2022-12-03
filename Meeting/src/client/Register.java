@@ -5,10 +5,16 @@ import java.awt.Font;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -36,7 +42,7 @@ public class Register extends JFrame {
 	public Register() {
 		setTitle("Đăng ký");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 387, 300);
+		setBounds(100, 100, 387, 324);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -46,6 +52,10 @@ public class Register extends JFrame {
 		setLocationRelativeTo(null);
 		contentPane.setLayout(null);
 		setVisible(true);
+		
+		Path currentRelativePath = Paths.get("");
+		String s = currentRelativePath.toAbsolutePath().toString();
+		setIconImage(new ImageIcon(s+"\\resources\\meeting.png").getImage());
 		
 		Label label = new Label("ĐĂNG KÝ");
 		label.setFont(new Font("Arial", Font.BOLD, 15));
@@ -57,7 +67,7 @@ public class Register extends JFrame {
 		contentPane.add(nameLabel);
 		
 		JLabel passwordLabel = new JLabel("Mật khẩu:");
-		passwordLabel.setBounds(75, 158, 70, 14);
+		passwordLabel.setBounds(73, 160, 70, 14);
 		contentPane.add(passwordLabel);
 
 		nameText = new JTextField();
@@ -66,12 +76,12 @@ public class Register extends JFrame {
 		nameText.setColumns(10);
 		
 		passwordText = new JTextField();
-		passwordText.setBounds(140, 152, 163, 27);
+		passwordText.setBounds(138, 154, 163, 27);
 		contentPane.add(passwordText);
 		passwordText.setColumns(10);
 		
-		registerButton = new JButton("Đăng ký");
-		registerButton.setBounds(139, 203, 90, 33);
+		registerButton = new JButton(" Đăng ký", new ImageIcon(s+"\\resources\\register.png"));
+		registerButton.setBounds(137, 203, 102, 33);
 		contentPane.add(registerButton);
 		
 		JLabel usernameLabel = new JLabel("Tên đăng nhập:");
@@ -82,6 +92,11 @@ public class Register extends JFrame {
 		usernameText.setColumns(10);
 		usernameText.setBounds(140, 106, 163, 27);
 		contentPane.add(usernameText);
+		
+		JLabel registerLabel = new JLabel("<html>Đã có tài khoản? <b>Đăng nhập</b></html>");
+		registerLabel.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		registerLabel.setBounds(116, 246, 163, 23);
+		contentPane.add(registerLabel);
 		
 		registerButton.addActionListener(new ActionListener() {
 			@Override
@@ -99,7 +114,14 @@ public class Register extends JFrame {
 			}
 		});
 		
+		registerLabel.addMouseListener((MouseListener) new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                dispose();
+            }
 
+        });
+		
 		InputMap input = passwordText.getInputMap();
 		input.put(KeyStroke.getKeyStroke("ENTER"), "text-submit");
 		passwordText.getActionMap().put("text-submit", new AbstractAction() {

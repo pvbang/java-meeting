@@ -6,9 +6,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -58,7 +61,7 @@ public class Main extends JFrame {
 	public Main() {
 		setTitle("Đăng nhập");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 361, 274);
+		setBounds(100, 100, 365, 274);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -68,6 +71,10 @@ public class Main extends JFrame {
 		setLocationRelativeTo(null);
 		contentPane.setLayout(null);
 		setVisible(true);
+		
+		Path currentRelativePath = Paths.get("");
+		String s = currentRelativePath.toAbsolutePath().toString();
+		setIconImage(new ImageIcon(s+"\\resources\\meeting.png").getImage());
 		
 		Label label = new Label("ĐĂNG NHẬP");
 		label.setFont(new Font("Arial", Font.BOLD, 15));
@@ -92,13 +99,13 @@ public class Main extends JFrame {
 		contentPane.add(passwordText);
 		passwordText.setColumns(10);
 		
-		JButton loginButton = new JButton("Đăng nhập");
-		loginButton.setBounds(123, 154, 95, 33);
+		JButton loginButton = new JButton(" Đăng nhập", new ImageIcon(s+"\\resources\\login.png"));
+		loginButton.setBounds(122, 154, 109, 33);
 		contentPane.add(loginButton);
 		
 		JLabel registerLabel = new JLabel("<html>Chưa có tài khoản? <b>Đăng ký</b></html>");
 		registerLabel.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		registerLabel.setBounds(103, 196, 163, 23);
+		registerLabel.setBounds(105, 196, 163, 23);
 		contentPane.add(registerLabel);
 		
 		loginButton.addActionListener(new ActionListener() {

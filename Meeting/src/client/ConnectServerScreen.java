@@ -37,7 +37,10 @@ public class ConnectServerScreen extends JFrame implements ActionListener {
 		JPanel connectServerContent = new JPanel(new GridBagLayout());
 		connectServerContent.setBackground(new Color(255, 255, 255));
 
-		JButton refreshButton = new JButton("Làm mới danh sách");
+		Path currentRelativePath = Paths.get("");
+		String s = currentRelativePath.toAbsolutePath().toString();
+		
+		JButton refreshButton = new JButton(" Làm mới danh sách", new ImageIcon(s+"\\resources\\refresh.png", "refresh"));
 		refreshButton.setActionCommand("refresh");
 		refreshButton.addActionListener(this);
 		this.user = user;
@@ -54,7 +57,7 @@ public class ConnectServerScreen extends JFrame implements ActionListener {
 				Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 				if (column == 6) {
 					c.setForeground(value.toString().equals("Hoạt động") ? Color.green : Color.red);
-					c.setFont(new Font("Dialog", Font.BOLD, 13));
+					c.setFont(new Font("Dialog", Font.BOLD, 12));
 				} else
 					c.setForeground(Color.black);
 
@@ -68,17 +71,12 @@ public class ConnectServerScreen extends JFrame implements ActionListener {
 		serverScrollPane.setBorder(BorderFactory.createTitledBorder("Danh sách các phòng họp"));
 		serverScrollPane.setBackground(new Color(255, 255, 255));
 		
-		
-		Path currentRelativePath = Paths.get("");
-		String s = currentRelativePath.toAbsolutePath().toString();
-		ImageIcon icon = new ImageIcon(s+"\\resources\\user.png", "user");
-		
 		JPopupMenu menuLogout = new JPopupMenu();
 		JMenuItem logoutItem = new JMenuItem("Đăng xuất");
 		logoutItem.setIcon(new ImageIcon(s+"\\resources\\exit.png", "exit"));
 		menuLogout.add(logoutItem);
 		
-        JLabel nameUserLabel = new JLabel(user.getName(), icon, JLabel.CENTER);
+        JLabel nameUserLabel = new JLabel(user.getName(), new ImageIcon(s+"\\resources\\user.png", "user"), JLabel.CENTER);
 		nameUserLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		nameUserLabel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -105,7 +103,7 @@ public class ConnectServerScreen extends JFrame implements ActionListener {
 		popupMenu.add(roomItem);
 		popupMenu.add(copyItem);
 		
-		JButton joinButton = new JButton("Tham gia cuộc họp");
+		JButton joinButton = new JButton(" Tham gia cuộc họp", new ImageIcon(s+"\\resources\\meeting.png"));
 		joinButton.addActionListener(this);
 		joinButton.setActionCommand("join");
 		serverTable.addMouseListener(new MouseAdapter() {
@@ -135,15 +133,15 @@ public class ConnectServerScreen extends JFrame implements ActionListener {
 		});
 		serverTable.setSelectionBackground(Color.green);
 
-		JButton addButton = new JButton("Tạo phòng họp");
+		JButton addButton = new JButton(" Tạo phòng họp", new ImageIcon(s+"\\resources\\add.png"));
 		addButton.addActionListener(this);
 		addButton.setActionCommand("add");
 
-		JButton editButton = new JButton("Sửa phòng họp");
+		JButton editButton = new JButton(" Sửa phòng họp", new ImageIcon(s+"\\resources\\change.png"));
 		editButton.addActionListener(this);
 		editButton.setActionCommand("edit");
 
-		JButton deleteButton = new JButton("Xoá phòng họp");
+		JButton deleteButton = new JButton(" Xoá phòng họp", new ImageIcon(s+"\\resources\\remove.png"));
 		deleteButton.addActionListener(this);
 		deleteButton.setActionCommand("delete");
 
@@ -167,6 +165,7 @@ public class ConnectServerScreen extends JFrame implements ActionListener {
 		this.setTitle("Danh sách phòng họp - UB Meeting");
 		this.setContentPane(connectServerContent);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setIconImage(new ImageIcon(s+"\\resources\\meeting.png").getImage());
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
@@ -297,8 +296,11 @@ public class ConnectServerScreen extends JFrame implements ActionListener {
 				serverNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 				JTextField nickNameText = new JTextField(nameRoom);
 				nickNameText.setPreferredSize(new Dimension(180, 23));
-
-				JButton editButton = new JButton("Sửa");
+				
+				Path currentRelativePath = Paths.get("");
+				String s = currentRelativePath.toAbsolutePath().toString();
+				
+				JButton editButton = new JButton("Sửa", new ImageIcon(s+"\\resources\\change.png"));
 				editButton.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -326,11 +328,13 @@ public class ConnectServerScreen extends JFrame implements ActionListener {
 				editContent.add(serverNameLabel, gbc);
 				editContent.add(nickNameText, gbc.setGrid(2, 1));
 				editContent.add(editButton, gbc.setGrid(1, 2).setSpan(2, 1));
-
+				editContent.setBackground(Color.white);
+				
 				editDialog.setTitle("Chỉnh sửa thông tin phòng họp");
 				editDialog.setContentPane(editContent);
 				editDialog.getRootPane().setDefaultButton(editButton);
 				editDialog.setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
+				editDialog.setIconImage(new ImageIcon(s+"\\resources\\meeting.png").getImage());
 				editDialog.pack();
 				editDialog.setLocationRelativeTo(null);
 				editDialog.setVisible(true);
@@ -355,8 +359,8 @@ public class ConnectServerScreen extends JFrame implements ActionListener {
 			connectedServer = serverList.stream().filter(x -> x.ip.equals(selectedIP) && x.port == selectedPort)
 					.findAny().orElse(null);
 
-			this.setVisible(false);
-			this.dispose();
+//			this.setVisible(false);
+//			this.dispose();
 			Main.mainScreen = new MainScreen();
 
 		} else if (result.equals("existed"))
