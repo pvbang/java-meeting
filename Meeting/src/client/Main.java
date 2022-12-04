@@ -16,8 +16,10 @@ import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
+import dao.ServerDAO;
 import dao.UserDAO;
 import model.User;
 
@@ -36,7 +38,7 @@ public class Main extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField usernameText;
-	private JTextField passwordText;
+	private JPasswordField passwordText;
 	
 	public static ConnectServerScreen connectServerScreen;
 	public static Main frame;
@@ -50,6 +52,7 @@ public class Main extends JFrame {
 			public void run() {
 				try {
 					UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -94,7 +97,7 @@ public class Main extends JFrame {
 		contentPane.add(usernameText);
 		usernameText.setColumns(10);
 		
-		passwordText = new JTextField();
+		passwordText = new JPasswordField();
 		passwordText.setBounds(124, 104, 172, 27);
 		contentPane.add(passwordText);
 		passwordText.setColumns(10);

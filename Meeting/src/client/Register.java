@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
@@ -33,7 +34,7 @@ public class Register extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField nameText;
-	private JTextField passwordText;
+	private JPasswordField passwordText;
 	private JButton registerButton;
 	
 	private UserDAO userDAO = new UserDAO();
@@ -75,7 +76,7 @@ public class Register extends JFrame {
 		contentPane.add(nameText);
 		nameText.setColumns(10);
 		
-		passwordText = new JTextField();
+		passwordText = new JPasswordField();
 		passwordText.setBounds(138, 154, 163, 27);
 		contentPane.add(passwordText);
 		passwordText.setColumns(10);
