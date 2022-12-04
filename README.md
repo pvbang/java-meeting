@@ -10,8 +10,6 @@ Meeting
 ```bash
 # Free SQL Database: https://www.freesqldatabase.com
 # Database: https://www.phpmyadmin.co
-# Free SQL Database: https://www.freesqldatabase.com
-# Database: https://www.phpmyadmin.co
 Host: sql6.freesqldatabase.com
 Database name: sql6581708
 Database user: sql6581708
