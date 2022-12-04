@@ -48,6 +48,12 @@ ALTER TABLE sql6581708.rooms CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_
 ALTER TABLE sql6581708.user_room CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ```
 
+### Tham khảo:
+```bash
+# Tham khảo cách truyền dữ liệu client-server, chat, voice:
+https://github.com/hachihao792001/ChatApplication
+```
+
 ## Dev: Phan Văn Bằng
 ###### Facebook: fb.com/it0902
 ###### Github: github.com/ilyouu
