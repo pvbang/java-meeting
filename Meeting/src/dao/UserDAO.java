@@ -16,11 +16,11 @@ public class UserDAO {
 	private String jdbcPassword = "lfvceV4iVW";
 
 	private static final String INSERT_USER = "INSERT INTO users" + " (name, user_name, password) VALUES" + " (?, ?, ?);";
-	private static final String SELECT_USER = "select id, name, user_name, password from users where id = ?;";
+	private static final String SELECT_USER = "select id_user, name, user_name, password from users where id_user = ?;";
 	private static final String SELECT_ALL_USERS = "select * from users;";
-	private static final String DELETE_USER = "delete from users where id = ?;";
+	private static final String DELETE_USER = "delete from users where id_user = ?;";
 	private static final String DELETE_ALL_USERS = "delete from users;";
-	private static final String UPDATE_USER = "update users set name = ?, user_name = ?, password = ? where id = ?;";
+	private static final String UPDATE_USER = "update users set name = ?, user_name = ?, password = ? where id_user = ?;";
 	
 	public UserDAO() {
 		
@@ -52,11 +52,11 @@ public class UserDAO {
 		}
 	}
 
-	public User selectUser(int id) {
+	public User selectUser(int id_user) {
 		User user = null;
 		try (Connection connection = getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER);) {
-			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(1, id_user);
 			System.out.println(preparedStatement);
 			ResultSet rs = preparedStatement.executeQuery();
 
@@ -64,7 +64,7 @@ public class UserDAO {
 				String name = rs.getString("name");
 				String user_name = rs.getString("user_name");
 				String password = rs.getString("password");
-				user = new User(id, name, user_name, password);
+				user = new User(id_user, name, user_name, password);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -81,11 +81,11 @@ public class UserDAO {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				int id = rs.getInt("id");
+				int id_user = rs.getInt("id_user");
 				String name = rs.getString("name");
 				String user_name = rs.getString("user_name");
 				String password = rs.getString("password");
-				users.add(new User(id, name, user_name, password));
+				users.add(new User(id_user, name, user_name, password));
 			}
 			
 		} catch (SQLException e) {
@@ -94,11 +94,11 @@ public class UserDAO {
 		return users;
 	}
 
-	public boolean deleteUser(int id) throws SQLException {
+	public boolean deleteUser(int id_user) throws SQLException {
 		boolean rowDeleted;
 		try (Connection connection = getConnection();
 				PreparedStatement statement = connection.prepareStatement(DELETE_USER);) {
-			statement.setInt(1, id);
+			statement.setInt(1, id_user);
 			System.out.println(statement);
 			rowDeleted = statement.executeUpdate() > 0;
 		}
