@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.cj.xdevapi.Statement;
+
 import model.Server;
 import server.SocketController;
 
@@ -16,12 +18,14 @@ public class ServerDAO {
 	private String jdbcUsername = "sql6581708";
 	private String jdbcPassword = "lfvceV4iVW";
 
-	private static final String INSERT_SERVER = "INSERT INTO rooms" + " (name, ip, port, code_room, id_user) VALUES" + " (?, ?, ?, ?, ?);";
-	private static final String SELECT_SERVER = "select * from rooms where id = ?;";
+	private static final String INSERT_SERVER = "INSERT INTO rooms" + " (name, ip, port, code_room, id_user_admin) VALUES" + " (?, ?, ?, ?, ?);";
+	private static final String SELECT_SERVER = "select * from rooms where id_room = ?;";
+	private static final String SELECT_SERVER_CODE = "select * from rooms where code_room = ?;";
 	private static final String SELECT_ALL_SERVERS = "select * from rooms;";
-	private static final String DELETE_SERVER = "delete from rooms where id = ?;";
+	private static final String DELETE_SERVER = "delete from rooms where id_room = ?;";
 	private static final String DELETE_ALL_SERVERS = "delete from rooms;";
-	private static final String UPDATE_SERVER = "update rooms set ip = ? where id = ?;";
+	private static final String UPDATE_SERVER = "update rooms set ip = ? where id_room = ?;";
+	private static final String UPDATE_NAME_SERVER = "update rooms set name = ? where id_room = ?;";
 	
 	public ServerDAO() {
 	}
@@ -38,10 +42,11 @@ public class ServerDAO {
 		}
 		return connection;
 	}
-
+	
 	public void insertServer(Server server) throws SQLException {
 		try (Connection connection = getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SERVER)) {
+			
 			preparedStatement.setString(1, server.getName());
 			preparedStatement.setString(2, server.getIp());
 			preparedStatement.setString(3, server.getPort());
@@ -54,11 +59,11 @@ public class ServerDAO {
 		}
 	}
 
-	public Server selectServer(int id) {
+	public Server selectServer(int id_room) {
 		Server server = null;
 		try (Connection connection = getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SERVER);) {
-			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(1, id_room);
 			System.out.println(preparedStatement);
 			ResultSet rs = preparedStatement.executeQuery();
 
@@ -67,8 +72,30 @@ public class ServerDAO {
 				String ip = rs.getString("ip");
 				String port = rs.getString("port");
 				String code_server = rs.getString("code_room");
-				int id_user = rs.getInt("id_user");
-				server = new Server(id, name, ip, port, code_server, id_user);
+				int id_user_admin = rs.getInt("id_user_admin");
+				server = new Server(id_room, name, ip, port, code_server, id_user_admin);
+			}
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
+		return server;
+	}
+	
+	public Server selectServerCode(String code_room) {
+		Server server = null;
+		try (Connection connection = getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SERVER_CODE);) {
+			preparedStatement.setString(1, code_room);
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				int id_room = rs.getInt("id_room");
+				String name = rs.getString("name");
+				String ip = rs.getString("ip");
+				String port = rs.getString("port");
+				int id_user_admin = rs.getInt("id_user_admin");
+				server = new Server(id_room, name, ip, port, code_room, id_user_admin);
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -85,13 +112,13 @@ public class ServerDAO {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				int id = rs.getInt("id");
+				int id_room = rs.getInt("id_room");
 				String name = rs.getString("name");
 				String ip = rs.getString("ip");
 				String port = rs.getString("port");
 				String code_server = rs.getString("code_room");
-				int id_user = rs.getInt("id_user");
-				servers.add(new Server(id, name, ip, port, code_server, id_user));
+				int id_user_admin = rs.getInt("id_user_admin");
+				servers.add(new Server(id_room, name, ip, port, code_server, id_user_admin));
 			}
 			
 		} catch (SQLException e) {
@@ -100,11 +127,12 @@ public class ServerDAO {
 		return servers;
 	}
 
-	public boolean deleteServer(int id) throws SQLException {
+	public boolean deleteServer(int id_room) throws SQLException {
 		boolean rowDeleted;
 		try (Connection connection = getConnection();
 				PreparedStatement statement = connection.prepareStatement(DELETE_SERVER);) {
-			statement.setInt(1, id);
+			statement.setInt(1, id_room);
+			System.out.println(statement);
 			rowDeleted = statement.executeUpdate() > 0;
 		}
 		return rowDeleted;
@@ -125,6 +153,18 @@ public class ServerDAO {
 				PreparedStatement statement = connection.prepareStatement(UPDATE_SERVER);) {
 			statement.setString(1, SocketController.getThisIP());
 			statement.setInt(2, server.getId());
+			System.out.println(statement);
+			rowUpdated = statement.executeUpdate() > 0;
+		}
+		return rowUpdated;
+	}
+	
+	public boolean updateNameServer(int id_room, String name) throws SQLException {
+		boolean rowUpdated;
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(UPDATE_NAME_SERVER);) {
+			statement.setString(1, name);
+			statement.setInt(2, id_room);
 			System.out.println(statement);
 			rowUpdated = statement.executeUpdate() > 0;
 		}

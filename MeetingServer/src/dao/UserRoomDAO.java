@@ -19,7 +19,7 @@ public class UserRoomDAO {
 	private static final String INSERT= "INSERT INTO user_room" + " (id_user, id_room) VALUES" + " (?, ?);";
 	private static final String SELECT = "select * from user_room where id = ?;";
 	private static final String SELECT_ALL = "select * from user_room;";
-	private static final String DELETE = "delete from user_room where id = ?;";
+	private static final String DELETE = "delete from user_room where id_room = ?;";
 	private static final String DELETE_ALL = "delete from user_room;";
 	private static final String UPDATE = "update user_room set id_user = ?, id_room = ? where id = ?;";
 	
@@ -70,7 +70,7 @@ public class UserRoomDAO {
 		return userRoom;
 	}
 
-	public List<UserRoom> selectAllServers() {
+	public List<UserRoom> selectAll() {
 
 		List<UserRoom> userRoom = new ArrayList<>();
 		try (Connection connection = getConnection();
@@ -91,11 +91,11 @@ public class UserRoomDAO {
 		return userRoom;
 	}
 
-	public boolean delete(int id) throws SQLException {
+	public boolean delete(int idRoom) throws SQLException {
 		boolean rowDeleted;
 		try (Connection connection = getConnection();
 				PreparedStatement statement = connection.prepareStatement(DELETE);) {
-			statement.setInt(1, id);
+			statement.setInt(1, idRoom);
 			rowDeleted = statement.executeUpdate() > 0;
 		}
 		return rowDeleted;
