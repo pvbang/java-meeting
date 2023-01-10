@@ -11,13 +11,13 @@ Meeting
 # Free SQL Database: https://www.freesqldatabase.com
 # Database: https://www.phpmyadmin.co
 Host: sql6.freesqldatabase.com
-Database name: sql6581708
-Database user: sql6581708
-Database password: lfvceV4iVW
+Database name: sql6589571
+Database user: sql6589571
+Database password: dXiafAiM7S
 Port number: 3306
 
 # create table (run sql query)
-create table sql6581708.users (
+create table sql6589571.users (
     id_user int(10) NOT NULL AUTO_INCREMENT,
     name varchar(50) not null,
     user_name varchar(50) not null,
@@ -25,7 +25,7 @@ create table sql6581708.users (
     primary key (id_user)
 );
 
-create table sql6581708.rooms (
+create table sql6589571.rooms (
     id_room int(10) NOT NULL AUTO_INCREMENT,
     name varchar(50) not null,
     ip varchar(50) not null,
@@ -35,19 +35,17 @@ create table sql6581708.rooms (
     primary key (id_room)
 );
 
-create table sql6581708.user_room (
+create table sql6589571.user_room (
     id int(10) NOT NULL AUTO_INCREMENT,
     id_user int not null,
     id_room int not null,
-    primary key (id),
-    FOREIGN KEY (id_user) REFERENCES sql6581708.users(id_user),
-    FOREIGN KEY (id_room) REFERENCES sql6581708.rooms(id_room)
+    primary key (id)
 );
 
 
-ALTER TABLE sql6581708.users CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-ALTER TABLE sql6581708.rooms CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-ALTER TABLE sql6581708.user_room CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE sql6589571.users CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE sql6589571.rooms CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE sql6589571.user_room CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ```
 
 ### Tham khảo:

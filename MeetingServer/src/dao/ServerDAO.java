@@ -14,9 +14,9 @@ import model.Server;
 import server.SocketController;
 
 public class ServerDAO {
-	private String jdbcURL = "jdbc:mysql://sql6.freesqldatabase.com:3306/sql6581708?useSSL=false&useUnicode=true&characterEncoding=UTF-8";
-	private String jdbcUsername = "sql6581708";
-	private String jdbcPassword = "lfvceV4iVW";
+	private String jdbcURL = "jdbc:mysql://sql6.freesqldatabase.com:3306/sql6589571?useSSL=false&useUnicode=true&characterEncoding=UTF-8";
+	private String jdbcUsername = "sql6589571";
+	private String jdbcPassword = "dXiafAiM7S";
 
 	private static final String INSERT_SERVER = "INSERT INTO rooms" + " (name, ip, port, code_room, id_user_admin) VALUES" + " (?, ?, ?, ?, ?);";
 	private static final String SELECT_SERVER = "select * from rooms where id_room = ?;";

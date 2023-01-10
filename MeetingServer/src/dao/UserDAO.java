@@ -11,9 +11,9 @@ import java.util.List;
 import model.User;
 
 public class UserDAO {
-	private String jdbcURL = "jdbc:mysql://sql6.freesqldatabase.com:3306/sql6581708?useSSL=false&useUnicode=true&characterEncoding=UTF-8";
-	private String jdbcUsername = "sql6581708";
-	private String jdbcPassword = "lfvceV4iVW";
+	private String jdbcURL = "jdbc:mysql://sql6.freesqldatabase.com:3306/sql6589571?useSSL=false&useUnicode=true&characterEncoding=UTF-8";
+	private String jdbcUsername = "sql6589571";
+	private String jdbcPassword = "dXiafAiM7S";
 
 	private static final String INSERT_USER = "INSERT INTO users" + " (name, user_name, password) VALUES" + " (?, ?, ?);";
 	private static final String SELECT_USER = "select id_user, name, user_name, password from users where id_user = ?;";

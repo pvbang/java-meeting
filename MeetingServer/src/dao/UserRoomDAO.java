@@ -12,9 +12,9 @@ import model.UserRoom;
 import server.SocketController;
 
 public class UserRoomDAO {
-	private String jdbcURL = "jdbc:mysql://sql6.freesqldatabase.com:3306/sql6581708?useSSL=false&useUnicode=true&characterEncoding=UTF-8";
-	private String jdbcUsername = "sql6581708";
-	private String jdbcPassword = "lfvceV4iVW";
+	private String jdbcURL = "jdbc:mysql://sql6.freesqldatabase.com:3306/sql6589571?useSSL=false&useUnicode=true&characterEncoding=UTF-8";
+	private String jdbcUsername = "sql6589571";
+	private String jdbcPassword = "dXiafAiM7S";
 
 	private static final String INSERT= "INSERT INTO user_room" + " (id_user, id_room) VALUES" + " (?, ?);";
 	private static final String SELECT = "select * from user_room where id = ?;";
