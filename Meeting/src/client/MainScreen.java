@@ -523,7 +523,6 @@ public class MainScreen extends JFrame implements ActionListener {
 		EventQueue.invokeLater(() -> {
 			showScreen();
 		});
-
 	}
 
 	public void showScreen() {
