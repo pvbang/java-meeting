@@ -59,6 +59,6 @@ https://github.com/hachihao792001/ChatApplication
 
 ## Dev: Phan Văn Bằng
 ###### Facebook: fb.com/it0902
-###### Github: github.com/ilyouu
+###### Github: github.com/pvbang
 ###### Email: pvbang23092002@gmail.com
 
